@@ -1,0 +1,121 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --squish-time: 1s;
+    --progress-time: 1s;
+    --circle-time: 300ms;
+    --btn-width: 300px;
+    --btn-height: 80px;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+
+.btn{
+    background-color: rgb(63, 170, 99);
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+    border: none;
+    width: var(--btn-width);
+    height: var(--btn-height);
+}
+.animate{
+    position: relative;
+    background-color: transparent;
+    color: transparent;
+    user-select: none;
+    cursor: default;
+    animation: hid 0s calc(var(--squish-time) + var(--progress-time)) forwards;
+}
+.animate::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgb(82, 82, 82);
+    border-radius: 1rem;
+    animation: squish var(--squish-time) forwards cubic-bezier(0.42, 0, 0.57, 1.51);
+}
+.animate::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgb(216, 216, 216);
+    border-radius: 1rem;
+    animation: progress var(--progress-time) forwards ease-in-out;
+    animation-delay: var(--squish-time);
+    top: 45%;
+    bottom: 45%;
+    left: 51%;
+    right: 51%;
+}
+.btn.animate::before,
+.btn.animate::after {
+  display: block;
+}
+
+
+.animate + .circle{
+    background-color: rgb(82, 82, 82);
+    color: white;
+    width: 0;
+    height: 0;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: default;
+    animation: circle var(--circle-time) calc(var(--squish-time) + var(--progress-time)) forwards cubic-bezier(0.42, 0, 0.57, 1.51);
+}
+
+
+
+
+@keyframes squish {
+    100%{
+        left: -25%;
+        right: -25%;
+        top: 45%;
+        bottom: 45%;
+    }
+}
+@keyframes progress {
+    100%{
+        left: -25%;
+        right: -25%;
+    }
+}
+
+@keyframes hid{
+    100%{
+        width: 0;
+        height: 0;
+    }
+}
+
+@keyframes circle{
+    0%{
+        width: calc( var(--btn-width) * 1.50 );
+        height: calc( var(--btn-height) * .1);
+        font-size: 0px;
+    }
+    100%{
+        width: var(--btn-height);
+        height: var(--btn-height);
+        border-radius: 100%;
+        background-color: rgb(63, 170, 99);
+    }
+}
+
+
